@@ -1,0 +1,7 @@
+# Everything here is public and free to index, including by the crawlers
+# behind AI assistants. Structured data for each page is embedded as
+# schema.org JSON-LD.
+User-agent: *
+Allow: /
+
+Sitemap: https://zubinray.com/sitemap.xml

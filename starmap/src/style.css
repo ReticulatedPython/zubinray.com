@@ -278,3 +278,26 @@ input[type=range] { width: 100%; accent-color: var(--accent); height: 36px; }
 
 .note a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(111,183,255,.35); }
 .note a:active { color: var(--accent); }
+
+/* Content for crawlers and screen readers. Clipped rather than display:none,
+   which keeps it in the accessibility tree. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
+
+#splash .t { margin: 0; font-weight: 300; }
+#splash .tag {
+  margin: -4px 0 2px; font-size: 13px; color: var(--dim);
+  max-width: 30ch; line-height: 1.5;
+}
+
+.noscript {
+  position: absolute; inset: 0; z-index: 70; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 28px; text-align: center; color: var(--fg);
+}
+.noscript h2 { font-size: 18px; font-weight: 500; margin: 0; }
+.noscript p { max-width: 42ch; font-size: 14px; color: var(--dim); line-height: 1.6; }

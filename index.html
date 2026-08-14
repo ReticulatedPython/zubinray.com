@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zubin Ray</title>
+  <title>Zubin Ray — building things with AI</title>
+  <meta name="description" content="Zubin Ray is a founder and product manager building free tools with AI. Projects include Star Map, an interactive night sky chart for any place on Earth and any date." />
+  <link rel="canonical" href="https://zubinray.com/" />
+  <meta name="author" content="Zubin Ray" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Zubin Ray" />
+  <meta property="og:title" content="Zubin Ray — building things with AI" />
+  <meta property="og:description" content="Founder and product manager building free tools with AI. Projects include Star Map, an interactive night sky chart for any place on Earth and any date." />
+  <meta property="og:url" content="https://zubinray.com/" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:image" content="https://zubinray.com/starmap/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Zubin Ray — building things with AI" />
+  <meta name="twitter:description" content="Founder and product manager building free tools with AI, including Star Map, an interactive night sky chart." />
+  <meta name="twitter:image" content="https://zubinray.com/starmap/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -19,7 +36,7 @@
     }
 
     html, body {
-      height: 100%;
+      min-height: 100%;
     }
 
     body {
@@ -78,6 +95,60 @@
       font-weight: 300;
     }
 
+    /* projects */
+    .projects {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .projects h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .project h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+
+    .project h3 a {
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .project h3 a:hover,
+    .project h3 a:focus-visible {
+      color: var(--accent);
+      border-bottom-color: var(--text);
+    }
+
+    .project p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .project .tags {
+      margin-top: 0.85rem;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.75;
+    }
+
     .fade-in {
       opacity: 0;
       transform: translateY(12px);
@@ -100,6 +171,84 @@
     <h1 class="fade-in">Zubin<br /><em>Ray</em></h1>
     <div class="divider fade-in"></div>
     <p class="bio fade-in">Founder, tinkerer, product manager by trade.<br />Mostly experimenting and building stuff with AI.</p>
+
+    <section class="projects fade-in" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Projects</h2>
+
+      <article class="project">
+        <h3><a href="/starmap/">Star Map</a></h3>
+        <p>
+          An interactive star map of the night sky above you, right now. Identify
+          constellations, planets, the phase of the Moon and Messier objects from any
+          location on Earth, on any date past or future. Track the ISS and Tiangong as
+          they pass overhead, and search 8,900 stars and 850 deep sky objects for the
+          telescope coordinates of anything you want to find.
+        </p>
+        <p class="tags">Free &middot; No sign-up &middot; Works offline &middot; Built with AI</p>
+      </article>
+    </section>
   </main>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://zubinray.com/#person",
+        "name": "Zubin Ray",
+        "url": "https://zubinray.com/",
+        "jobTitle": "Product Manager",
+        "description": "Founder, tinkerer and product manager, mostly experimenting and building things with AI."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://zubinray.com/#website",
+        "url": "https://zubinray.com/",
+        "name": "Zubin Ray",
+        "description": "Personal site of Zubin Ray, featuring free tools built with AI.",
+        "inLanguage": "en-GB",
+        "publisher": { "@id": "https://zubinray.com/#person" }
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://zubinray.com/#projects",
+        "name": "Projects",
+        "isPartOf": { "@id": "https://zubinray.com/#website" },
+        "about": { "@id": "https://zubinray.com/starmap/#app" }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://zubinray.com/starmap/#app",
+        "name": "Star Map",
+        "alternateName": "Star Map — interactive night sky chart",
+        "url": "https://zubinray.com/starmap/",
+        "applicationCategory": "EducationalApplication",
+        "applicationSubCategory": "Astronomy",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript and a browser with HTML5 canvas",
+        "isAccessibleForFree": true,
+        "inLanguage": "en-GB",
+        "description": "An interactive star map showing the night sky in real time for any location on Earth and any date. Shows constellations, planets, the Moon's phase, Messier and NGC deep sky objects, and live satellite tracking including the ISS and Tiangong.",
+        "author": { "@id": "https://zubinray.com/#person" },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP",
+          "availability": "https://schema.org/InStock"
+        },
+        "featureList": [
+          "Real-time night sky for your location",
+          "88 constellations with joined figures and IAU boundaries",
+          "Sun, Moon and planets with correct phase and position",
+          "110 Messier objects and around 740 NGC/IC deep sky objects",
+          "Live satellite tracking including the ISS and Tiangong",
+          "Travel to any date, past or future",
+          "Search with telescope coordinates in RA/Dec and altitude/azimuth"
+        ]
+      }
+    ]
+  }
+  </script>
 </body>
 </html>

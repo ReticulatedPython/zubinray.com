@@ -143,7 +143,52 @@
 </section>
 
 <div id="splash">
-  <div class="t">Star Map</div>
+  <h1 class="t">Star Map</h1>
+  <p class="tag">The night sky above you, right now</p>
   <div class="spin"></div>
   <div class="s" id="splashmsg">Building the sky…</div>
 </div>
+
+<!-- The sky is drawn on a canvas, which crawlers and screen readers cannot
+     read. This says the same thing in words. -->
+<section class="sr-only">
+  <h2>An interactive map of tonight's sky</h2>
+  <p>
+    Star Map draws the real night sky above your location at the current moment, and at
+    any other date you choose. It is free, needs no sign-up, and runs entirely in your
+    browser.
+  </p>
+  <h3>What you can see</h3>
+  <ul>
+    <li>All 88 constellations, drawn as joined figures over the real stars that form them.</li>
+    <li>The Sun, the Moon with its correct phase, and every planet from Mercury to Neptune.</li>
+    <li>110 Messier objects and around 740 NGC and IC deep sky objects — galaxies, nebulae
+        and star clusters — drawn at their true size in the sky.</li>
+    <li>Satellites overhead, including the International Space Station and the Chinese
+        space station Tiangong, with the time and direction of their next visible pass.</li>
+    <li>Nearly 9,000 stars down to magnitude 6.5, the limit of the naked eye.</li>
+  </ul>
+  <h3>What you can do</h3>
+  <ul>
+    <li>Look around by dragging, and zoom with a pinch or scroll.</li>
+    <li>Set your location by GPS, by choosing a city, or by typing coordinates.</li>
+    <li>Travel to any date and time, past or future, or run the clock forward to watch the
+        sky turn.</li>
+    <li>Search for any star, planet, constellation, satellite or deep sky object and jump
+        straight to it.</li>
+    <li>Read telescope coordinates for anything you find: right ascension and declination
+        in J2000 and of date, altitude and azimuth, and rise, set and transit times.</li>
+    <li>See through the ground to find objects currently below your horizon.</li>
+  </ul>
+</section>
+
+<noscript>
+  <div class="noscript">
+    <h2>Star Map needs JavaScript</h2>
+    <p>
+      This map works out the positions of the stars, planets and satellites in your browser
+      as you use it, so it needs JavaScript switched on. Enable it and reload to see the
+      night sky above you.
+    </p>
+  </div>
+</noscript>
