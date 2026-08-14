@@ -1,0 +1,50 @@
+name: Refresh star map satellites
+
+# The star map at /starmap refuses satellite orbital elements more than 14 days
+# past their epoch, so they need topping up. Daily leaves a fortnight of margin
+# and survives several failed runs.
+#
+# This repository publishes with GitHub's branch-based Pages, so committing to
+# master is all that is needed — the site rebuilds itself on push. Nothing here
+# touches the rest of zubinray.com.
+on:
+  schedule:
+    # 04:17 UTC, deliberately off the hour — jobs queued on the hour are the
+    # ones that get delayed when GitHub is busy.
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starmap-satellites
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'          # build scripts use global fetch
+
+      - name: Rebuild the page from src/
+        run: node starmap/build/build.js
+
+      - name: Refresh satellite orbital elements
+        run: node starmap/build/fetch_satellites.js
+
+      - name: Commit anything that changed
+        run: |
+          if git diff --quiet -- starmap/satellites.json starmap/index.html; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add starmap/satellites.json starmap/index.html
+          git commit -m "Refresh star map satellite elements"
+          git push

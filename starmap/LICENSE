@@ -1,0 +1,50 @@
+MIT License
+
+Copyright (c) 2026 Zubin Ray
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+
+THIRD PARTY DATA
+
+The MIT licence above covers the source code in this repository. It does NOT
+cover the astronomical catalogue data, which keeps the licence of whoever
+compiled it. That data appears in `build/skydata.js` and, because the page is
+built as a single self-contained file, inside `index.html` as well.
+
+  Star positions — HYG Database, https://github.com/astronexus/HYG-Database
+      Licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
+      The star table derived from it remains under CC BY-SA 4.0. Attribution
+      is required, and adaptations of that data must stay under the same
+      licence. This does not extend to the surrounding source code.
+
+  Constellation figures, Messier and NGC/IC objects — d3-celestial by Olaf
+  Frohn, https://github.com/ofrohn/d3-celestial
+      Copyright (c) 2015, Olaf Frohn. Licensed BSD-3-Clause. Redistributions
+      must retain that copyright notice and its list of conditions, and must
+      not use the copyright holder's name to endorse this work.
+
+  Constellation boundaries — Roman, N. G. (1987), "Identification of a
+  Constellation From Position", PASP 99, 695. Obtained from the Centre de
+  Données astronomiques de Strasbourg (CDS), catalogue VI/42.
+
+  Satellite orbital elements — CelesTrak, https://celestrak.org/
+      Fetched at run time, not redistributed as part of this source. Subject
+      to CelesTrak's usage policy rather than a licence.

@@ -1,0 +1,149 @@
+<canvas id="sky"></canvas>
+
+<div class="bar" id="topbar">
+  <button class="chip icon" id="menubtn" aria-label="Menu">☰</button>
+  <button class="chip grow" id="locchip">
+    <span class="txt"><b id="locname">Locating…</b> <span id="locdet"></span></span>
+  </button>
+  <button class="chip icon" id="searchbtn" aria-label="Search the sky">🔍</button>
+</div>
+
+<div id="sidetools">
+  <button class="rbtn" id="zin" aria-label="Zoom in">+</button>
+  <button class="rbtn" id="zout" aria-label="Zoom out">−</button>
+  <button class="rbtn" id="seethru" aria-label="See below the horizon"
+          title="See through the ground to what is below the horizon">
+    <svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="8.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M2.5 14.5h19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6 19.4c1.7-1.7 4-2.6 6-2.6s4.3.9 6 2.6" fill="none" stroke="currentColor"
+            stroke-width="1.7" stroke-linecap="round" stroke-dasharray="2.6 2.4"/>
+    </svg>
+  </button>
+  <button class="rbtn" id="compass" aria-label="Face north"><span class="needle"></span>N</button>
+</div>
+
+<div id="dpad">
+  <span class="sp"></span>
+  <button data-nudge="up" aria-label="Look up">▲</button>
+  <span class="sp"></span>
+  <button data-nudge="left" aria-label="Look left">◀</button>
+  <button id="flipbtn" aria-label="Turn around to face the opposite way"
+          title="Turn around (180°)">⟲</button>
+  <button data-nudge="right" aria-label="Look right">▶</button>
+  <span class="sp"></span>
+  <button data-nudge="down" aria-label="Look down">▼</button>
+  <span class="sp"></span>
+</div>
+
+<div id="timebar">
+  <button id="livebtn" title="Return to the present"><span class="dot"></span>LIVE</button>
+  <button id="rew" aria-label="Rewind">⏪</button>
+  <button id="play" aria-label="Play or pause">⏸</button>
+  <button id="ff" aria-label="Fast forward">⏩</button>
+  <span id="ratelabel">real</span>
+  <div id="clock"><b id="clockt">--:--</b><span id="clockd">—</span></div>
+</div>
+
+<div class="hint" id="hint">Drag to look around · pinch or scroll to zoom</div>
+<div id="toast"></div>
+
+<!-- ------------------------------------------------------------- menu --- -->
+<section class="sheet" id="menusheet" aria-hidden="true">
+  <div class="grip"></div>
+  <header><h2>Sky settings</h2><button class="close" data-close>✕</button></header>
+  <div class="body">
+    <h3 class="sec">Where you are</h3>
+    <div class="btnrow">
+      <button class="act primary" id="geobtn">📍 Use my location</button>
+      <button class="act" id="citybtn">🌍 Pick a city</button>
+    </div>
+    <div id="citywrap" style="display:none;margin-top:10px">
+      <input type="search" id="citysearch" placeholder="Search cities…" autocomplete="off">
+      <ul class="results" id="cityresults"></ul>
+    </div>
+    <div class="two" style="margin-top:10px">
+      <label class="field"><span>Latitude (°N)</span>
+        <input type="number" id="latin" step="0.0001" min="-90" max="90"></label>
+      <label class="field"><span>Longitude (°E)</span>
+        <input type="number" id="lonin" step="0.0001" min="-180" max="180"></label>
+    </div>
+    <button class="act" id="applyloc" style="width:100%">Apply coordinates</button>
+
+    <h3 class="sec">Show in the sky</h3>
+    <div class="row"><label for="l_con">Constellation figures<span class="sub">Joined outlines and names</span></label>
+      <span class="tgl"><input type="checkbox" id="l_con" checked><i></i></span></div>
+    <div class="row"><label for="l_major">Major constellations only<span class="sub">Hides the faint, cluttering figures</span></label>
+      <span class="tgl"><input type="checkbox" id="l_major" checked><i></i></span></div>
+    <div class="row"><label for="l_starnames">Star names<span class="sub">Proper names and Bayer letters</span></label>
+      <span class="tgl"><input type="checkbox" id="l_starnames" checked><i></i></span></div>
+    <div class="row"><label for="l_planets">Sun, Moon and planets</label>
+      <span class="tgl"><input type="checkbox" id="l_planets" checked><i></i></span></div>
+    <div class="row"><label for="l_dso">Deep sky objects<span class="sub">Messier catalogue, nebulae and galaxies</span></label>
+      <span class="tgl"><input type="checkbox" id="l_dso" checked><i></i></span></div>
+    <div class="row"><label for="l_sat">Satellites<span class="sub">ISS, Tiangong and bright objects</span></label>
+      <span class="tgl"><input type="checkbox" id="l_sat" checked><i></i></span></div>
+    <div class="row"><label for="l_ground">Ground and horizon</label>
+      <span class="tgl"><input type="checkbox" id="l_ground" checked><i></i></span></div>
+    <div class="row"><label for="l_seethru">See below the horizon<span class="sub">Makes the ground translucent so you can look through the Earth</span></label>
+      <span class="tgl"><input type="checkbox" id="l_seethru"><i></i></span></div>
+    <div class="row"><label for="l_atmos">Daylight and twilight<span class="sub">Turn off to see stars at any hour</span></label>
+      <span class="tgl"><input type="checkbox" id="l_atmos" checked><i></i></span></div>
+    <div class="row"><label for="l_grid">Altitude / azimuth grid</label>
+      <span class="tgl"><input type="checkbox" id="l_grid"><i></i></span></div>
+    <div class="row"><label for="l_ecl">Ecliptic<span class="sub">The path the Sun and planets follow</span></label>
+      <span class="tgl"><input type="checkbox" id="l_ecl"><i></i></span></div>
+
+    <h3 class="sec">How many stars</h3>
+    <input type="range" id="density" min="-1.5" max="2" step="0.1" value="0">
+    <div class="sub" id="densitylabel" style="color:var(--dim);font-size:12px">Balanced</div>
+
+    <h3 class="sec">Saved objects</h3>
+    <ul class="results" id="savedlist"></ul>
+
+    <p class="note" id="about"></p>
+  </div>
+</section>
+
+<!-- ----------------------------------------------------------- search --- -->
+<section class="sheet" id="searchsheet" aria-hidden="true">
+  <div class="grip"></div>
+  <header><h2>Find an object</h2><button class="close" data-close>✕</button></header>
+  <div class="body">
+    <input type="search" id="q" placeholder="Sombrero Galaxy, Vega, M31, Saturn…"
+           autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="chips" id="quickchips"></div>
+    <ul class="results" id="results"></ul>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------- info --- -->
+<section class="sheet" id="infosheet" aria-hidden="true">
+  <div class="grip"></div>
+  <header><h2 id="infotitle">Object</h2><button class="close" data-close>✕</button></header>
+  <div class="body" id="infobody"></div>
+</section>
+
+<!-- ------------------------------------------------------------- time --- -->
+<section class="sheet" id="timesheet" aria-hidden="true">
+  <div class="grip"></div>
+  <header><h2>Jump to a date and time</h2><button class="close" data-close>✕</button></header>
+  <div class="body">
+    <label class="field"><span>Local date and time at your chosen location</span>
+      <input type="datetime-local" id="dtin"></label>
+    <div class="btnrow">
+      <button class="act primary" id="dtgo">Show this sky</button>
+      <button class="act" id="dtnow">Back to now</button>
+    </div>
+    <h3 class="sec">Quick jumps</h3>
+    <div class="chips" id="jumpchips"></div>
+    <h3 class="sec">Time speed</h3>
+    <div class="chips" id="ratechips"></div>
+  </div>
+</section>
+
+<div id="splash">
+  <div class="t">Star Map</div>
+  <div class="spin"></div>
+  <div class="s" id="splashmsg">Building the sky…</div>
+</div>
