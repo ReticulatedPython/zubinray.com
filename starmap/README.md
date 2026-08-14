@@ -3,14 +3,17 @@
 A free, interactive star map you can drop on a website. One self-contained file,
 no build step at deploy time, no external services except a satellite feed.
 
-**Deploy:** copy `index.html` to your web host. That is the whole thing (~660 KB,
-about 234 KB over the wire once gzipped). It works from a subdirectory, needs no
-server-side code, and runs offline apart from live satellite elements.
+**Live at [zubinray.com/starmap](https://zubinray.com/starmap/).**
 
-Optionally copy `satellites.json` alongside it and refresh it on a daily cron —
-see [Hosting the satellite feed yourself](#hosting-the-satellite-feed-yourself).
-Without it the page fetches satellite orbits from CelesTrak directly, which is
-fine until you get busy.
+This folder lives inside the `zubinray.com` repository, which publishes through
+GitHub's branch-based Pages: anything committed to `master` appears on the site
+a minute or two later. `starmap/index.html` is the whole application (~660 KB,
+about 234 KB over the wire once gzipped) and `starmap/satellites.json` is the
+mirrored satellite feed beside it.
+
+`.github/workflows/starmap-satellites.yml` at the repository root refreshes that
+feed every day at 04:17 UTC and commits it, which republishes the site. Nothing
+else on zubinray.com is touched.
 
 ---
 
@@ -106,23 +109,25 @@ incorrectly.
 Only needed if you want to change the code or refresh the catalogues.
 
 ```bash
-node build/build.js
+cd starmap && node build/build.js
 ```
 
-That reassembles `src/*` and `build/skydata.js` into `index.html`.
+That reassembles `src/*` and `build/skydata.js` into `starmap/index.html`. Commit
+the result and it goes live. The daily workflow also runs this, so a change to
+`src/` reaches the site within a day even if you forget.
 
 To regenerate the embedded catalogue data (downloads ~36 MB of source
-catalogues into `build/catalogues/` and caches them there):
+catalogues into `build/catalogues/` and caches them there — git-ignored):
 
 ```bash
-node build/build_data.js
+cd starmap && node build/build_data.js
 ```
 
 ### Layout
 
 ```
-index.html            the deployable page — generated, do not edit by hand
-src/astro.js          time scales, precession, Sun, Moon, planets
+starmap/index.html    the deployable page — generated, do not edit by hand
+starmap/src/astro.js  time scales, precession, Sun, Moon, planets
 src/sgp4.js           satellite propagator
 src/scene.js          catalogues, stereographic camera, all drawing
 src/ui.js             state, interaction, panels, search
@@ -132,7 +137,8 @@ src/style.css         styling
 build/build.js        bundles the above into index.html
 build/build_data.js   turns the raw catalogues into build/skydata.js
 build/fetch_satellites.js  refreshes satellites.json from CelesTrak
-satellites.json       optional local mirror of the satellite feed
+starmap/satellites.json    the mirrored satellite feed, refreshed daily
+.github/workflows/starmap-satellites.yml   the daily refresh job
 ```
 
 `src/astro.js` and `src/sgp4.js` export themselves under Node, so they can be
@@ -177,33 +183,24 @@ you are going to use it, and only download data once per update"*, and heavy
 users should *"set up a proxy to cache these queries"*. Repeated abuse gets IPs
 firewalled. Mirroring the feed fixes this and makes the page faster.
 
+This is already set up here: `.github/workflows/starmap-satellites.yml` runs
+
 ```bash
-node build/fetch_satellites.js      # writes satellites.json next to index.html
+node starmap/build/fetch_satellites.js
 ```
 
-Put that on a **daily** schedule. The page loads `satellites.json` if it is
-present and only falls back to CelesTrak if it is missing, so:
+every day and commits the result, so visitors only ever hit zubinray.com. The
+page loads `satellites.json` if it is present and falls back to querying
+CelesTrak directly only if it is missing.
 
-| What you deploy | What visitors' browsers hit |
+| What is deployed | What visitors' browsers hit |
 |---|---|
 | `index.html` alone | CelesTrak, once per browser per 6 hours |
-| `index.html` + `satellites.json` on a cron | only your own server |
+| `index.html` + `satellites.json` refreshed daily | only zubinray.com |
 
-Linux or macOS, 4am daily:
-
-```bash
-0 4 * * * cd /var/www/starmap && /usr/bin/node build/fetch_satellites.js >> /var/log/starmap-sats.log 2>&1
-```
-
-Windows Task Scheduler, daily:
-
-```bash
-schtasks /create /tn "Star map satellites" /tr "node C:\path\to\star_map_opencode\build\fetch_satellites.js" /sc daily /st 04:00
-```
-
-If you deploy from a git repo rather than running anything on the server, run
-the script locally and commit the resulting `satellites.json`, or run it in CI
-on a schedule and let the deploy carry it.
+To run it by hand at any point, use the **Actions** tab on the repository and
+trigger *Refresh star map satellites*, or run the command above locally and
+commit `starmap/satellites.json`.
 
 ### Why daily and not monthly
 
@@ -233,8 +230,3 @@ than silently disappearing.
   hand-typed coordinates fall back to an offset estimated from longitude and are
   labelled as such.
 
-## Previous files
-
-`starmap.html`, `test.html` and `debug_test.html` are the earlier attempt and are
-not used by the new app. They are left in place untouched; delete them whenever
-you like.
