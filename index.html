@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zubin Ray — building things with AI</title>
-  <meta name="description" content="Zubin Ray is a founder and product manager building free tools with AI. Projects include Star Map, an interactive night sky chart for any place on Earth and any date." />
+  <meta name="description" content="Zubin Ray is a founder and product manager building free tools and games with AI. Projects include Star Map, an interactive night sky chart for any place on Earth and any date, and Stick Shooter, a free arcade shooter you play in the browser." />
   <link rel="canonical" href="https://zubinray.com/" />
   <meta name="author" content="Zubin Ray" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -12,13 +12,13 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Zubin Ray" />
   <meta property="og:title" content="Zubin Ray — building things with AI" />
-  <meta property="og:description" content="Founder and product manager building free tools with AI. Projects include Star Map, an interactive night sky chart for any place on Earth and any date." />
+  <meta property="og:description" content="Founder and product manager building free tools and games with AI. Projects include Star Map, an interactive night sky chart for any place on Earth and any date, and Stick Shooter, a free browser arcade shooter." />
   <meta property="og:url" content="https://zubinray.com/" />
   <meta property="og:locale" content="en_GB" />
   <meta property="og:image" content="https://zubinray.com/starmap/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Zubin Ray — building things with AI" />
-  <meta name="twitter:description" content="Founder and product manager building free tools with AI, including Star Map, an interactive night sky chart." />
+  <meta name="twitter:description" content="Founder and product manager building free tools and games with AI, including Star Map, an interactive night sky chart, and Stick Shooter, a free browser arcade shooter." />
   <meta name="twitter:image" content="https://zubinray.com/starmap/og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -186,6 +186,18 @@
         </p>
         <p class="tags">Free &middot; No sign-up &middot; Works offline &middot; Built with AI</p>
       </article>
+
+      <article class="project" style="margin-top: 2.5rem">
+        <h3><a href="/stickshooter/">Stick Shooter</a></h3>
+        <p>
+          A free arcade shooter drawn in chalk on a blackboard, played in the
+          browser on a phone or a desktop. Drag anywhere to move and the gun
+          fires on its own, so the only decision is where to stand. Five
+          hand-drawn levels, a boss at the end of each, rocks that double as
+          cover, and an endless faster loop once you clear the last one.
+        </p>
+        <p class="tags">Free &middot; No sign-up &middot; No ads &middot; Plays on mobile &middot; Built with AI</p>
+      </article>
     </section>
   </main>
 
@@ -199,14 +211,15 @@
         "name": "Zubin Ray",
         "url": "https://zubinray.com/",
         "jobTitle": "Product Manager",
-        "description": "Founder, tinkerer and product manager, mostly experimenting and building things with AI."
+        "description": "Founder, tinkerer and product manager, mostly experimenting and building things with AI.",
+        "knowsAbout": ["Product management", "Web development", "Building software with AI"]
       },
       {
         "@type": "WebSite",
         "@id": "https://zubinray.com/#website",
         "url": "https://zubinray.com/",
         "name": "Zubin Ray",
-        "description": "Personal site of Zubin Ray, featuring free tools built with AI.",
+        "description": "Personal site of Zubin Ray, featuring free tools and games built with AI.",
         "inLanguage": "en-GB",
         "publisher": { "@id": "https://zubinray.com/#person" }
       },
@@ -215,7 +228,14 @@
         "@id": "https://zubinray.com/#projects",
         "name": "Projects",
         "isPartOf": { "@id": "https://zubinray.com/#website" },
-        "about": { "@id": "https://zubinray.com/starmap/#app" }
+        "about": [
+          { "@id": "https://zubinray.com/starmap/#app" },
+          { "@id": "https://zubinray.com/stickshooter/#game" }
+        ],
+        "hasPart": [
+          { "@id": "https://zubinray.com/starmap/#app" },
+          { "@id": "https://zubinray.com/stickshooter/#game" }
+        ]
       },
       {
         "@type": "WebApplication",
@@ -245,6 +265,40 @@
           "Live satellite tracking including the ISS and Tiangong",
           "Travel to any date, past or future",
           "Search with telescope coordinates in RA/Dec and altitude/azimuth"
+        ]
+      },
+      {
+        "@type": ["VideoGame", "WebApplication"],
+        "@id": "https://zubinray.com/stickshooter/#game",
+        "name": "Stick Shooter",
+        "alternateName": "Stick Shooter — free browser arcade shooter",
+        "url": "https://zubinray.com/stickshooter/",
+        "applicationCategory": "GameApplication",
+        "applicationSubCategory": "Arcade",
+        "genre": ["Arcade", "Shoot 'em up", "Action"],
+        "gamePlatform": ["Web browser", "Android", "iOS", "Desktop"],
+        "playMode": "SinglePlayer",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript and a browser with HTML5 canvas",
+        "isAccessibleForFree": true,
+        "inLanguage": "en-GB",
+        "image": "https://zubinray.com/stickshooter/og-image.png",
+        "description": "A free stick figure arcade shooter played in the browser on mobile or desktop. Drag to move and the gun fires automatically. Five chalkboard levels each ending in a boss, with rocks that act as cover, rapid fire and spread pick-ups, and an endless faster loop after the last level. No download, no sign-up, no adverts and no in-app purchases.",
+        "author": { "@id": "https://zubinray.com/#person" },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP",
+          "availability": "https://schema.org/InStock"
+        },
+        "featureList": [
+          "Plays in any modern browser with nothing to install",
+          "Mobile-first drag controls, plus keyboard on desktop",
+          "Automatic fire, so positioning is the whole skill",
+          "Five hand-drawn chalkboard levels, each ending in a boss",
+          "Destructible rocks that double as cover from enemy fire",
+          "Endless faster loop once the last level is cleared",
+          "Best score saved locally with no account and no tracking"
         ]
       }
     ]

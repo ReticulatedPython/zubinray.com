@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Mobile-first: fill the screen, behave like an app, but still let the
+     page below the board scroll so the written content is reachable. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15181c">
+<meta name="color-scheme" content="dark">
+
+<title>Stick Shooter — a free arcade shooter you play in the browser</title>
+<meta name="description" content="A free stick figure arcade shooter that runs in your browser on phone or desktop. Drag to move, firing is automatic. No download, no sign-up, no ads, no in-app purchases.">
+<link rel="canonical" href="https://zubinray.com/stickshooter/">
+<meta name="author" content="Zubin Ray">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="keywords" content="stick shooter, free web game, browser game, arcade shooter, shoot em up, play in browser, no download game, free mobile game, stick figure game">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zubin Ray">
+<meta property="og:title" content="Stick Shooter — a free arcade shooter you play in the browser">
+<meta property="og:description" content="Drag to move, firing is automatic. Five hand-drawn chalkboard levels, a boss at the end of each, then it loops faster. Free, no download, no sign-up.">
+<meta property="og:url" content="https://zubinray.com/stickshooter/">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://zubinray.com/stickshooter/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A chalk-drawn stick figure firing up a dark green chalkboard at descending enemies.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stick Shooter — a free arcade shooter you play in the browser">
+<meta name="twitter:description" content="Drag to move, firing is automatic. Free, no download, no sign-up, no ads.">
+<meta name="twitter:image" content="https://zubinray.com/stickshooter/og-image.png">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Stick Shooter">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23232f2a'/><g stroke='%23e9e5d8' stroke-width='2' stroke-linecap='round' fill='none'><circle cx='16' cy='19' r='2.6'/><path d='M16 21.6v5M16 23.5l-3 3M16 23.5l3 3'/><path d='M16 13.5v-6'/></g></svg>">
+
+<style>
+  :root {
+    --wall:  #15181c;   /* room behind the board */
+    --board: #232f2a;   /* chalkboard green-black */
+    --chalk: #e9e5d8;   /* off-white chalk */
+    --dim:   rgba(233,229,216,0.6);
+    --frame: #5d4427;   /* wooden frame */
+    --line:  rgba(233,229,216,0.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--wall);
+    overscroll-behavior-y: none;
+    font-family: "Courier New", monospace;
+    color: var(--chalk);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ---- the board fills the first screen ---- */
+  #stage {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  canvas {
+    background: var(--board);
+    border: 8px solid var(--frame);
+    border-radius: 4px;
+    box-shadow: 0 10px 36px rgba(0,0,0,.6);
+    touch-action: none;   /* we own all gestures on the board itself */
+    -webkit-user-select: none;
+    user-select: none;
+    display: block;
+  }
+  .scroll-cue {
+    position: absolute;
+    bottom: 10px; left: 0; right: 0;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    pointer-events: none;
+  }
+
+  /* ---- written content, for readers and for search engines ---- */
+  .prose {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 5rem;
+    line-height: 1.8;
+    font-size: 14px;
+    color: var(--dim);
+  }
+  .prose h1 {
+    font-size: clamp(1.6rem, 5vw, 2.1rem);
+    letter-spacing: .04em;
+    color: var(--chalk);
+    margin-bottom: 1.25rem;
+    font-weight: 700;
+  }
+  .prose h2 {
+    font-size: 13px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--chalk);
+    margin: 2.5rem 0 .9rem;
+    font-weight: 400;
+  }
+  .prose h3 {
+    font-size: 14px;
+    color: var(--chalk);
+    margin: 1.5rem 0 .35rem;
+    font-weight: 700;
+  }
+  .prose p + p { margin-top: .9rem; }
+  .prose ul { margin: .5rem 0 0 1.1rem; }
+  .prose li { margin-bottom: .35rem; }
+  .prose a { color: var(--chalk); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .prose a:hover, .prose a:focus-visible { border-bottom-color: var(--chalk); }
+  .tags {
+    margin-top: 1.25rem;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .75;
+  }
+  .backlink {
+    display: block;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<main id="stage">
+  <canvas id="game" aria-label="Stick Shooter game board. Drag or use the arrow keys to move; firing is automatic."></canvas>
+  <p class="scroll-cue">scroll for how to play</p>
+</main>
+
+<article class="prose">
+  <h1>Stick Shooter</h1>
+  <p>
+    A free arcade shooter that runs in the browser, on a phone or on a desktop.
+    Everything is drawn in chalk on a blackboard. You are the stick figure at the
+    bottom. Drag anywhere to move, and your gun fires on its own — there is no
+    fire button to hunt for with your thumb.
+  </p>
+  <p>
+    Nothing to download, nothing to install, no sign-up, no ads and nothing to
+    buy. Open the page and you are playing. Your best score is remembered in your
+    own browser and never leaves your device.
+  </p>
+
+  <h2>How to play</h2>
+  <ul>
+    <li><strong>On a phone or tablet:</strong> drag your finger anywhere on the board. The stick figure moves by the same distance your finger did, so your thumb never covers the action. Tap to start, and tap to retry.</li>
+    <li><strong>On a desktop:</strong> the left and right arrow keys, or A and D, or a click-and-drag with the mouse. Space or Enter to start. P or Escape to pause.</li>
+    <li><strong>Firing is automatic.</strong> Your only job is where to stand.</li>
+    <li><strong>White helps, red hurts.</strong> That single rule covers every object in the game.</li>
+  </ul>
+
+  <h2>What is in it</h2>
+  <ul>
+    <li>Five hand-drawn levels, each with its own enemy mix and a boss at the end.</li>
+    <li>Rocks that are cover: they soak the boss's shots, and burst for points if you drill through them.</li>
+    <li>Pick-ups — rapid fire, a spread shot, an extra heart, and sludge, which slows your gun down and is the one white-looking thing you should dodge.</li>
+    <li>Clear all five and the game loops back to the start, faster, and keeps going for as long as you can hold on.</li>
+    <li>A best score and best level kept in your browser between visits.</li>
+  </ul>
+
+  <h2>Questions</h2>
+
+  <h3>Is Stick Shooter really free?</h3>
+  <p>
+    Yes. It is free to play, with no adverts, no in-app purchases, no premium
+    currency and no account. There is no paid version and nothing is withheld.
+  </p>
+
+  <h3>Do I need to download or install anything?</h3>
+  <p>
+    No. It is a web page. It runs in any modern browser on iPhone, Android,
+    Windows, Mac or Linux. On a phone you can add it to your home screen and it
+    will open full-screen like an app.
+  </p>
+
+  <h3>Does it work on mobile?</h3>
+  <p>
+    It was built mobile-first. The board is a portrait shape and scales to fit
+    whatever screen it finds, and the controls are a relative drag, which is the
+    standard for this kind of game on a touchscreen. It works just as well with
+    a keyboard on a desktop.
+  </p>
+
+  <h3>Is my data collected?</h3>
+  <p>
+    No. There is no analytics, no tracking and no server. The only thing stored
+    is your best score, kept in your own browser's local storage.
+  </p>
+
+  <h3>Who made it?</h3>
+  <p>
+    <a href="https://zubinray.com/">Zubin Ray</a>, mostly as an experiment in
+    building a complete small game with AI. It is a sibling of
+    <a href="https://zubinray.com/starmap/">Star Map</a>, a free interactive
+    chart of the night sky.
+  </p>
+
+  <p class="tags">Free &middot; No sign-up &middot; No ads &middot; Works on mobile &middot; Built with AI</p>
+
+  <a class="backlink" href="https://zubinray.com/">&larr; zubinray.com</a>
+</article>
+
+<!-- Plain script tags, no modules, no build step: load order matters.
+     engine -> input -> entities -> stream -> main -->
+<script src="js/engine.js"></script>
+<script src="js/input.js"></script>
+<script src="js/entities.js"></script>
+<script src="js/stream.js"></script>
+<script src="js/main.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["VideoGame", "WebApplication"],
+      "@id": "https://zubinray.com/stickshooter/#game",
+      "name": "Stick Shooter",
+      "alternateName": "Stick Shooter — free browser arcade shooter",
+      "url": "https://zubinray.com/stickshooter/",
+      "applicationCategory": "GameApplication",
+      "applicationSubCategory": "Arcade",
+      "genre": ["Arcade", "Shoot 'em up", "Action"],
+      "gamePlatform": ["Web browser", "Android", "iOS", "Desktop"],
+      "playMode": "SinglePlayer",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript and a browser with HTML5 canvas",
+      "isAccessibleForFree": true,
+      "inLanguage": "en-GB",
+      "image": "https://zubinray.com/stickshooter/og-image.png",
+      "description": "A free stick figure arcade shooter played in the browser on mobile or desktop. Drag to move and the gun fires automatically. Five chalkboard levels each ending in a boss, with rocks that act as cover, rapid fire and spread pick-ups, and an endless faster loop after the last level. No download, no sign-up, no adverts and no in-app purchases.",
+      "author": {
+        "@type": "Person",
+        "name": "Zubin Ray",
+        "url": "https://zubinray.com/"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP",
+        "availability": "https://schema.org/InStock"
+      },
+      "featureList": [
+        "Plays in any modern browser with nothing to install",
+        "Mobile-first relative drag controls, plus keyboard on desktop",
+        "Automatic fire, so positioning is the whole skill",
+        "Five hand-drawn chalkboard levels, each ending in a boss",
+        "Destructible rocks that double as cover from enemy fire",
+        "Rapid fire, spread shot and extra life pick-ups",
+        "Endless faster loop once the last level is cleared",
+        "Best score saved locally with no account and no tracking"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://zubinray.com/stickshooter/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Stick Shooter free to play?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Stick Shooter is completely free, with no adverts, no in-app purchases, no premium currency and no account required. There is no paid version and no content is withheld behind a payment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to download or install Stick Shooter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Stick Shooter is a web page that runs directly in any modern browser on iPhone, Android, Windows, Mac or Linux. On a phone you can add it to your home screen and it opens full screen like an app."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you play Stick Shooter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On a touchscreen, drag your finger anywhere on the board and the stick figure moves the same distance, so your thumb never covers the action. On a desktop, use the left and right arrow keys, A and D, or click and drag. Firing is automatic, so the only decision is where to stand. White objects help you and red objects hurt you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Stick Shooter work on mobile phones?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. It was built mobile-first. The portrait game board scales to fit any screen and renders at the device pixel ratio so the chalk lines stay sharp, and the touch controls are a relative drag. The same page also works with a keyboard or mouse on a desktop."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Stick Shooter collect any data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. There is no analytics, no tracking and no server. The only thing saved is your best score and best level, stored in your own browser's local storage on your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many levels does Stick Shooter have?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There are five hand-drawn levels, each with its own mix of enemies, rocks and pick-ups, and each ending in a boss fight. After the fifth level the game loops back to the first and runs faster, so a run continues for as long as you survive."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://zubinray.com/stickshooter/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Zubin Ray", "item": "https://zubinray.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Stick Shooter", "item": "https://zubinray.com/stickshooter/" }
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>
