@@ -102,6 +102,17 @@
     <ul class="results" id="savedlist"></ul>
 
     <p class="note" id="about"></p>
+
+    <!-- Site footer. Sits after #about because ui.js overwrites that node's
+         innerHTML on start, which would swallow anything placed inside it. -->
+    <nav class="sitenav" aria-label="More from zubinray.com">
+      <h3 class="sec">More from this site</h3>
+      <ul>
+        <li><a href="https://zubinray.com/">Home &mdash; zubinray.com</a></li>
+        <li><a href="https://zubinray.com/stickshooter/">Stick Shooter</a>
+            <span>a free arcade shooter you play in the browser</span></li>
+      </ul>
+    </nav>
   </div>
 </section>
 

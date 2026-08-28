@@ -89,7 +89,7 @@
   .prose {
     max-width: 640px;
     margin: 0 auto;
-    padding: 3.5rem 1.5rem 5rem;
+    padding: 3.5rem 1.5rem 2.5rem;
     line-height: 1.8;
     font-size: 14px;
     color: var(--dim);
@@ -127,13 +127,30 @@
     text-transform: uppercase;
     opacity: .75;
   }
-  .backlink {
-    display: block;
-    margin-top: 3rem;
-    padding-top: 1.5rem;
+  /* ---- site footer ---- */
+  .sitefoot {
+    max-width: 640px;
+    margin: 0 auto;
     border-top: 1px solid var(--line);
-    font-size: 12px;
+    padding-top: 2rem;
+    color: var(--dim);
+    font-size: 13px;
+    line-height: 1.7;
   }
+  .sitefoot h2 {
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--chalk);
+    font-weight: 400;
+    margin-bottom: 1.1rem;
+  }
+  .sitefoot ul { list-style: none; margin: 0; }
+  .sitefoot li { margin-bottom: .85rem; }
+  .sitefoot a { color: var(--chalk); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .sitefoot a:hover, .sitefoot a:focus-visible { border-bottom-color: var(--chalk); }
+  .sitefoot span { display: block; font-size: 12px; opacity: .8; }
+  .sitefoot .copy { margin-top: 1.75rem; font-size: 12px; opacity: .75; }
 </style>
 </head>
 <body>
@@ -212,9 +229,28 @@
   </p>
 
   <p class="tags">Free &middot; No sign-up &middot; No ads &middot; Works on mobile &middot; Built with AI</p>
-
-  <a class="backlink" href="https://zubinray.com/">&larr; zubinray.com</a>
 </article>
+
+<footer class="sitefoot">
+  <nav aria-label="More from zubinray.com">
+    <h2>More from this site</h2>
+    <ul>
+      <li>
+        <a href="https://zubinray.com/">Home</a>
+        <span>zubinray.com &mdash; free tools and games built with AI</span>
+      </li>
+      <li>
+        <a href="https://zubinray.com/starmap/">Star Map</a>
+        <span>an interactive chart of the night sky for any place on Earth and any date</span>
+      </li>
+      <li>
+        <a href="https://zubinray.com/sitemap.xml">Sitemap</a>
+        <span>every page on this site</span>
+      </li>
+    </ul>
+  </nav>
+  <p class="copy">Made by <a href="https://zubinray.com/">Zubin Ray</a></p>
+</footer>
 
 <!-- Plain script tags, no modules, no build step: load order matters.
      engine -> input -> entities -> stream -> main -->
