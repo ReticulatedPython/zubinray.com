@@ -907,12 +907,6 @@ function observerVec(jd, latDeg, lonDeg, elevM = 0) {
   ];
 }
 
-if (typeof module !== 'undefined') module.exports = {
-  D2R, R2D, AU_KM, norm360, jdFromDate, dateFromJd, gmst, obliquity,
-  raDecToVec, vecToRaDec, precessionMatrix, skyMatrix, applyMat,
-  vecToAltAz, altAzToVec, refraction, heliocentric, planetGeocentric,
-  sunGeocentric, moonPosition, moonGeocentric, phaseOf, observerVec, eclToEq,
-};
 
 
 /* ===== sgp4.js ===== */
@@ -1186,7 +1180,6 @@ function satelliteLookAngles(rTeme, jd, latDeg, lonDeg, elevM) {
   };
 }
 
-if (typeof module !== 'undefined') module.exports = { sgp4init, sgp4, satelliteLookAngles };
 
 
 /* ===== cities.js ===== */
